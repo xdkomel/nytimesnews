@@ -40,6 +40,11 @@ class Constants {
   static const apiPath = 'https://api.nytimes.com/svc/topstories/v2/';
 
   static const cardHeight = 240.0;
+
+  static const noArticlesMessage = "Sadly, no articles found";
+
+  static const duration250 = Duration(milliseconds: 250);
+  static const duration500 = Duration(milliseconds: 400);
 }
 
 extension StringCapitalize on String {

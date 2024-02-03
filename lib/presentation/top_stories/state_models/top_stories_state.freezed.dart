@@ -19,6 +19,9 @@ mixin _$TopStoriesState {
   String get lastUpdated => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   TopStoriesContentState get content => throw _privateConstructorUsedError;
+  TopStoriesContentState? get filteredContent =>
+      throw _privateConstructorUsedError;
+  String? get searchQuery => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TopStoriesStateCopyWith<TopStoriesState> get copyWith =>
@@ -32,9 +35,14 @@ abstract class $TopStoriesStateCopyWith<$Res> {
       _$TopStoriesStateCopyWithImpl<$Res, TopStoriesState>;
   @useResult
   $Res call(
-      {String lastUpdated, String category, TopStoriesContentState content});
+      {String lastUpdated,
+      String category,
+      TopStoriesContentState content,
+      TopStoriesContentState? filteredContent,
+      String? searchQuery});
 
   $TopStoriesContentStateCopyWith<$Res> get content;
+  $TopStoriesContentStateCopyWith<$Res>? get filteredContent;
 }
 
 /// @nodoc
@@ -53,6 +61,8 @@ class _$TopStoriesStateCopyWithImpl<$Res, $Val extends TopStoriesState>
     Object? lastUpdated = null,
     Object? category = null,
     Object? content = null,
+    Object? filteredContent = freezed,
+    Object? searchQuery = freezed,
   }) {
     return _then(_value.copyWith(
       lastUpdated: null == lastUpdated
@@ -67,6 +77,14 @@ class _$TopStoriesStateCopyWithImpl<$Res, $Val extends TopStoriesState>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as TopStoriesContentState,
+      filteredContent: freezed == filteredContent
+          ? _value.filteredContent
+          : filteredContent // ignore: cast_nullable_to_non_nullable
+              as TopStoriesContentState?,
+      searchQuery: freezed == searchQuery
+          ? _value.searchQuery
+          : searchQuery // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -75,6 +93,19 @@ class _$TopStoriesStateCopyWithImpl<$Res, $Val extends TopStoriesState>
   $TopStoriesContentStateCopyWith<$Res> get content {
     return $TopStoriesContentStateCopyWith<$Res>(_value.content, (value) {
       return _then(_value.copyWith(content: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TopStoriesContentStateCopyWith<$Res>? get filteredContent {
+    if (_value.filteredContent == null) {
+      return null;
+    }
+
+    return $TopStoriesContentStateCopyWith<$Res>(_value.filteredContent!,
+        (value) {
+      return _then(_value.copyWith(filteredContent: value) as $Val);
     });
   }
 }
@@ -88,10 +119,16 @@ abstract class _$$TopStoriesStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String lastUpdated, String category, TopStoriesContentState content});
+      {String lastUpdated,
+      String category,
+      TopStoriesContentState content,
+      TopStoriesContentState? filteredContent,
+      String? searchQuery});
 
   @override
   $TopStoriesContentStateCopyWith<$Res> get content;
+  @override
+  $TopStoriesContentStateCopyWith<$Res>? get filteredContent;
 }
 
 /// @nodoc
@@ -108,6 +145,8 @@ class __$$TopStoriesStateImplCopyWithImpl<$Res>
     Object? lastUpdated = null,
     Object? category = null,
     Object? content = null,
+    Object? filteredContent = freezed,
+    Object? searchQuery = freezed,
   }) {
     return _then(_$TopStoriesStateImpl(
       lastUpdated: null == lastUpdated
@@ -122,6 +161,14 @@ class __$$TopStoriesStateImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as TopStoriesContentState,
+      filteredContent: freezed == filteredContent
+          ? _value.filteredContent
+          : filteredContent // ignore: cast_nullable_to_non_nullable
+              as TopStoriesContentState?,
+      searchQuery: freezed == searchQuery
+          ? _value.searchQuery
+          : searchQuery // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -132,7 +179,9 @@ class _$TopStoriesStateImpl implements _TopStoriesState {
   _$TopStoriesStateImpl(
       {required this.lastUpdated,
       required this.category,
-      required this.content});
+      required this.content,
+      this.filteredContent,
+      this.searchQuery});
 
   @override
   final String lastUpdated;
@@ -140,10 +189,14 @@ class _$TopStoriesStateImpl implements _TopStoriesState {
   final String category;
   @override
   final TopStoriesContentState content;
+  @override
+  final TopStoriesContentState? filteredContent;
+  @override
+  final String? searchQuery;
 
   @override
   String toString() {
-    return 'TopStoriesState(lastUpdated: $lastUpdated, category: $category, content: $content)';
+    return 'TopStoriesState(lastUpdated: $lastUpdated, category: $category, content: $content, filteredContent: $filteredContent, searchQuery: $searchQuery)';
   }
 
   @override
@@ -155,11 +208,16 @@ class _$TopStoriesStateImpl implements _TopStoriesState {
                 other.lastUpdated == lastUpdated) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.filteredContent, filteredContent) ||
+                other.filteredContent == filteredContent) &&
+            (identical(other.searchQuery, searchQuery) ||
+                other.searchQuery == searchQuery));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, lastUpdated, category, content);
+  int get hashCode => Object.hash(runtimeType, lastUpdated, category, content,
+      filteredContent, searchQuery);
 
   @JsonKey(ignore: true)
   @override
@@ -173,7 +231,9 @@ abstract class _TopStoriesState implements TopStoriesState {
   factory _TopStoriesState(
       {required final String lastUpdated,
       required final String category,
-      required final TopStoriesContentState content}) = _$TopStoriesStateImpl;
+      required final TopStoriesContentState content,
+      final TopStoriesContentState? filteredContent,
+      final String? searchQuery}) = _$TopStoriesStateImpl;
 
   @override
   String get lastUpdated;
@@ -181,6 +241,10 @@ abstract class _TopStoriesState implements TopStoriesState {
   String get category;
   @override
   TopStoriesContentState get content;
+  @override
+  TopStoriesContentState? get filteredContent;
+  @override
+  String? get searchQuery;
   @override
   @JsonKey(ignore: true)
   _$$TopStoriesStateImplCopyWith<_$TopStoriesStateImpl> get copyWith =>

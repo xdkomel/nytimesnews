@@ -15,16 +15,11 @@ class TopStoriesNotifier extends Notifier<TopStoriesState> {
 
   Future<void> loadData() async {
     final category = state.category;
-    state = TopStoriesState(
-      lastUpdated: state.lastUpdated,
-      category: category,
-      content: TopStoriesContentState.loading(),
-    );
+    state = state.copyWith(content: TopStoriesContentState.loading());
     final api = ref.read(Providers.apiRepositoryProvider);
     final data = await api.loadData(category);
-    state = TopStoriesState(
+    state = state.copyWith(
       lastUpdated: data.lastUpdated,
-      category: category,
       content: TopStoriesContentState.data(section: data),
     );
   }
@@ -32,5 +27,9 @@ class TopStoriesNotifier extends Notifier<TopStoriesState> {
   Future<void> updateCategory(String category) async {
     state = state.copyWith(category: category);
     await loadData();
+  }
+
+  void filter(String query) {
+    state = state.copyWith(searchQuery: query);
   }
 }
