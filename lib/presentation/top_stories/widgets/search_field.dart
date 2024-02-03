@@ -23,7 +23,7 @@ class _SearchFieldState extends State<SearchField> {
         child: TextField(
           controller: _controller,
           decoration: InputDecoration(
-            prefix: AssetsManager.searchIcon,
+            prefixIcon: AssetsManager.searchIcon,
             suffixIcon: IconButton(
               icon: const Icon(Icons.clear),
               onPressed: _controller.clear,

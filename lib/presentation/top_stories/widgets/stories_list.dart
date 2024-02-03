@@ -17,7 +17,7 @@ class _StoriesListState extends State<StoriesList> {
           children: [
             ...List.generate(
               100,
-              (index) => Text("$index"),
+              (index) => Text("$index in ${widget.categoryName}"),
             ),
           ],
         ),

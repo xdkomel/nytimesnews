@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'constants.dart';
@@ -33,5 +34,14 @@ abstract class AssetsManager {
       BlendMode.srcIn,
     ),
   );
-  static final searchIcon = SvgPicture.asset('assets/icons/search.svg');
+  static final searchIcon = SvgPicture.asset(
+    'assets/icons/search.svg',
+    width: 24,
+    height: 24,
+    fit: BoxFit.contain,
+    colorFilter: const ColorFilter.mode(
+      Constants.greyLight,
+      BlendMode.srcIn,
+    ),
+  );
 }
