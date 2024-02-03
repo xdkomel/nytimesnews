@@ -41,7 +41,8 @@ class Constants {
 
   static const cardHeight = 240.0;
 
-  static const noArticlesMessage = "Sadly, no articles found";
+  static const noArticlesMessage = 'Sadly, no articles found';
+  static const loadMoreText = 'Load 5 more';
 
   static const duration250 = Duration(milliseconds: 250);
   static const duration500 = Duration(milliseconds: 400);

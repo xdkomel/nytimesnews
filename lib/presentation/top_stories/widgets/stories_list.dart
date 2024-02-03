@@ -5,6 +5,7 @@ import '../../../application/state_providers.dart';
 import '../../../constants/constants.dart';
 import '../../../domain/models/article.dart';
 import '../../common/loading_indicator.dart';
+import 'paged_list.dart';
 import 'story_card.dart';
 
 class StoriesList extends ConsumerStatefulWidget {
@@ -54,26 +55,24 @@ class _StoriesListState extends ConsumerState<StoriesList> {
             ),
           );
         }
-        final elements = articles
-            .map(
-              (e) => StoryCard(
-                key: ValueKey(e.title),
-                article: e,
-                showSection: widget.categoryName == Constants.defaultSection,
-              ),
-            )
-            .expand(
-              (element) => [
-                element,
-                const SizedBox(height: 16),
-              ],
-            )
-            .toList();
+        final elements = articles.map(
+          (e) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: StoryCard(
+              key: ValueKey(e.title),
+              article: e,
+              showSection: widget.categoryName == Constants.defaultSection,
+            ),
+          ),
+        );
         return SliverPadding(
-          padding: const EdgeInsets.all(20.0),
-          sliver: SliverList.builder(
-            itemBuilder: (context, index) => elements[index],
-            itemCount: elements.length,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 8,
+          ),
+          sliver: PagedList(
+            elements: elements,
+            length: elements.length,
           ),
         );
       },
