@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../constants/assets_manager.dart';
 import '../../../constants/constants.dart';
@@ -47,7 +48,7 @@ class _StoryCardState extends State<StoryCard> {
                     Colors.black.withAlpha(102),
                     BlendMode.darken,
                   ),
-                  image: NetworkImage(imageUrl),
+                  image: CachedNetworkImageProvider(imageUrl),
                   fit: BoxFit.cover,
                 )
               : null,

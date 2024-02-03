@@ -5,10 +5,10 @@ import 'package:intl/intl.dart';
 
 import '../../application/state_providers.dart';
 import '../../constants/constants.dart';
-import 'widgets/category_bubble.dart';
-import 'widgets/persistent_header.dart';
-import 'widgets/search_field.dart';
+import '../../domain/models/article.dart';
 import 'widgets/stories_list.dart';
+import 'widgets/top_stories_header.dart';
+import 'widgets/top_stories_search_tabs.dart';
 
 class TopStories extends ConsumerStatefulWidget {
   const TopStories({super.key});
@@ -27,6 +27,14 @@ class _TopStoriesState extends ConsumerState<TopStories> {
     super.initState();
   }
 
+  bool matchesQuery(String? query, Article article) {
+    if (query == null) {
+      return true;
+    }
+    return article.title.toLowerCase().contains(query) ||
+        article.abstract.toLowerCase().contains(query);
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(StateProviders.topStoriesStateProvider);
@@ -37,76 +45,16 @@ class _TopStoriesState extends ConsumerState<TopStories> {
     return SafeArea(
       child: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 28),
-                  const Text(
-                    'NY Times Top Stories',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w600,
-                      color: Constants.blackPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    lastUpdatedMessage,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Constants.greyPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
+          TopStoriesHeader(lastUpdatedMessage: lastUpdatedMessage),
+          TopStoriesSearchTabs(category: state.category),
+          SliverAnimatedOpacity(
+            opacity: ref.watch(StateProviders.isSearchInFocus) ? 0.5 : 1,
+            duration: Constants.duration500,
+            sliver: SliverIgnorePointer(
+              ignoring: ref.watch(StateProviders.isSearchInFocus),
+              sliver: StoriesList(
+                categoryName: state.category,
               ),
-            ),
-          ),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: PersistentHeader(
-              widget: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 20),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: SearchField(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 4),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: Constants.categories
-                            .map(
-                              (name) => CategoryBubble(
-                                name: name,
-                                isSelected: name == state.category,
-                              ),
-                            )
-                            .expand(
-                              (element) => [
-                                const SizedBox(width: 16),
-                                element,
-                              ],
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: StoriesList(
-              categoryName: state.category,
             ),
           ),
         ],
