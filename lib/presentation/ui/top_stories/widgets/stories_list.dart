@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../application/state_providers.dart';
-import '../../../constants/constants.dart';
-import '../../../domain/models/article.dart';
+import '../../../../application/state_providers.dart';
+import '../../../../constants/constants.dart';
+import '../../../../domain/models/article.dart';
 import '../../common/loading_indicator.dart';
 import 'paged_list.dart';
 import 'story_card.dart';

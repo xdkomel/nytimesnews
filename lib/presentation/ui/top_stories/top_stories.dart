@@ -3,9 +3,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../application/state_providers.dart';
-import '../../constants/constants.dart';
-import '../../domain/models/article.dart';
+import '../../../application/state_providers.dart';
+import '../../../constants/constants.dart';
+import '../../../domain/models/article.dart';
 import 'widgets/stories_list.dart';
 import 'widgets/top_stories_header.dart';
 import 'widgets/top_stories_search_tabs.dart';

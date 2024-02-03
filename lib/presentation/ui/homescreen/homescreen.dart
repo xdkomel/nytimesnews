@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../constants/assets_manager.dart';
+import '../../../constants/constants.dart';
 import '../top_stories/top_stories.dart';
-import '../../constants/assets_manager.dart';
-import '../../constants/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

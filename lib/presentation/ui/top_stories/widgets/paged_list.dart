@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/constants.dart';
+import '../../../../constants/constants.dart';
 
 class PagedList extends StatefulWidget {
   final Iterable<Widget> elements;

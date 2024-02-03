@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../constants/constants.dart';
+import '../../../constants/constants.dart';
 import '../common/loading_indicator.dart';
 
 class Webview extends StatefulWidget {

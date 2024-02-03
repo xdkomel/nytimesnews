@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../../constants/assets_manager.dart';
-import '../../../constants/constants.dart';
-import '../../../domain/models/article.dart';
+import '../../../../constants/assets_manager.dart';
+import '../../../../constants/constants.dart';
+import '../../../../domain/models/article.dart';
 import '../../webview/webview.dart';
 
 class StoryCard extends StatefulWidget {

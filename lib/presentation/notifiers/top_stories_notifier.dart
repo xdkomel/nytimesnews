@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../application/providers.dart';
 import '../../constants/constants.dart';
-import 'state_models/top_stories_content_state.dart';
-import 'state_models/top_stories_state.dart';
+import '../state_models/top_stories_content_state.dart';
+import '../state_models/top_stories_state.dart';
 
 class TopStoriesNotifier extends Notifier<TopStoriesState> {
   @override

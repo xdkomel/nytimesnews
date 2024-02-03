@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../constants/constants.dart';
+import '../../../../constants/constants.dart';
 import 'category_bubble.dart';
 import 'persistent_header.dart';
-import 'search_field/search_field.dart';
+import 'search_field.dart';
 
 class TopStoriesSearchTabs extends StatelessWidget {
   final String category;

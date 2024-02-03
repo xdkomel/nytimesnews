@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../application/state_providers.dart';
-import '../../../constants/constants.dart';
+import '../../../../application/state_providers.dart';
+import '../../../../constants/constants.dart';
 
 class CategoryBubble extends ConsumerWidget {
   final String name;

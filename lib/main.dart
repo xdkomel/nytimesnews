@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'presentation/homescreen/homescreen.dart';
+import 'presentation/ui/homescreen/homescreen.dart';
 
 void main() {
   runApp(const MyApp());
