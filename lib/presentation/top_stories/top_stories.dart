@@ -1,47 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-import '../../state_providers.dart';
-import '../../utility/constants.dart';
+import '../../application/state_providers.dart';
+import '../../constants/constants.dart';
 import 'widgets/category_bubble.dart';
 import 'widgets/persistent_header.dart';
 import 'widgets/search_field.dart';
 import 'widgets/stories_list.dart';
 
-class TopStories extends ConsumerWidget {
+class TopStories extends ConsumerStatefulWidget {
   const TopStories({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final category = ref.watch(StateProviders.selectedCategoryProvider);
+  ConsumerState<ConsumerStatefulWidget> createState() => _TopStoriesState();
+}
+
+class _TopStoriesState extends ConsumerState<TopStories> {
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(StateProviders.topStoriesStateProvider.notifier).loadData();
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(StateProviders.topStoriesStateProvider);
+    final lastUpdated = DateTime.tryParse(state.lastUpdated);
+    final lastUpdatedMessage = lastUpdated == null
+        ? state.lastUpdated
+        : "Last updated ${DateFormat('dd-MM-yyyy HH:mm').format(lastUpdated)}";
     return SafeArea(
       child: CustomScrollView(
         slivers: [
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 28),
-                  Text(
-                    'NYT Top Stories',
+                  const SizedBox(height: 28),
+                  const Text(
+                    'NY Times Top Stories',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w600,
                       color: Constants.blackPrimary,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    'Updated 4 seconds ago',
-                    style: TextStyle(
+                    lastUpdatedMessage,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: Constants.greyPrimary,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               ),
             ),
@@ -64,11 +84,10 @@ class TopStories extends ConsumerWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: Constants.categories
-                            .map((e) => e.capitalize())
                             .map(
                               (name) => CategoryBubble(
                                 name: name,
-                                isSelected: name == category,
+                                isSelected: name == state.category,
                               ),
                             )
                             .expand(
@@ -87,13 +106,9 @@ class TopStories extends ConsumerWidget {
           ),
           SliverToBoxAdapter(
             child: StoriesList(
-              categoryName: category,
+              categoryName: state.category,
             ),
           ),
-          // SliverList.separated(
-          //   itemBuilder: (context, i) => Text("Element number $i"),
-          //   separatorBuilder: (context, _) => const SizedBox(height: 20),
-          // ),
         ],
       ),
     );

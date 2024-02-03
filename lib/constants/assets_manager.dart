@@ -34,13 +34,20 @@ abstract class AssetsManager {
       BlendMode.srcIn,
     ),
   );
+  static final bookmarkIconWhite = SvgPicture.asset(
+    'assets/icons/bookmark.svg',
+    colorFilter: const ColorFilter.mode(
+      Colors.white,
+      BlendMode.srcIn,
+    ),
+  );
   static final searchIcon = SvgPicture.asset(
     'assets/icons/search.svg',
     width: 24,
     height: 24,
     fit: BoxFit.contain,
     colorFilter: const ColorFilter.mode(
-      Constants.greyLight,
+      Constants.greyPrimary,
       BlendMode.srcIn,
     ),
   );

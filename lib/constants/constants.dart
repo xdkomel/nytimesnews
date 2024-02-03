@@ -7,6 +7,7 @@ class Constants {
   static const Color blackPrimary = Color(0xff333647);
   static const Color greyPrimary = Color(0xff7C82A1);
 
+  static const String defaultSection = 'home';
   static const List<String> categories = [
     'home',
     'arts',
@@ -35,6 +36,10 @@ class Constants {
     'us',
     'world',
   ];
+
+  static const apiPath = 'https://api.nytimes.com/svc/topstories/v2/';
+
+  static const cardHeight = 240.0;
 }
 
 extension StringCapitalize on String {

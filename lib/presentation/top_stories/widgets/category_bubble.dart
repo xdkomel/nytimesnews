@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../state_providers.dart';
-import '../../../utility/constants.dart';
+import '../../../application/state_providers.dart';
+import '../../../constants/constants.dart';
 
 class CategoryBubble extends ConsumerWidget {
   final String name;
@@ -17,9 +17,7 @@ class CategoryBubble extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => Bounceable(
-    onTap: () {
-      ref.read(StateProviders.selectedCategoryProvider.notifier).state = name;
-    },
+    onTap: () => ref.read(StateProviders.topStoriesStateProvider.notifier).updateCategory(name),
     child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -29,7 +27,7 @@ class CategoryBubble extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text(
-              name,
+              name.capitalize(),
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,

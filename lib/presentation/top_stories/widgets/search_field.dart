@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../utility/assets_manager.dart';
-import '../../../utility/constants.dart';
+import '../../../constants/assets_manager.dart';
+import '../../../constants/constants.dart';
 
 class SearchField extends StatefulWidget {
   const SearchField({super.key});
@@ -21,14 +21,27 @@ class _SearchFieldState extends State<SearchField> {
         ),
         alignment: Alignment.topCenter,
         child: TextField(
+          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+          textAlignVertical: TextAlignVertical.center,
           controller: _controller,
           decoration: InputDecoration(
-            prefixIcon: AssetsManager.searchIcon,
+            prefixIcon: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: AssetsManager.searchIcon,
+            ),
             suffixIcon: IconButton(
-              icon: const Icon(Icons.clear),
+              icon: const Icon(
+                Icons.clear,
+                color: Constants.greyPrimary,
+              ),
               onPressed: _controller.clear,
             ),
             hintText: 'Search',
+            hintStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Constants.greyPrimary
+            ),
             border: InputBorder.none,
           ),
         ),
