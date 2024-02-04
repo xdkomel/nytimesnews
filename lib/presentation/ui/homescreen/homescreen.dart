@@ -74,6 +74,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               searchQueryNotifier: StateProviders.homepageSearchQuery,
               filterNotifier: StateProviders.homepageFilteredStories,
               searchInFocusNotifier: StateProviders.homepageSearchFieldInFocus,
+              categoryFilterNotifier: StateProviders.homepageCategoryFilter,
             ),
             const BookmarkedStories(),
           ],

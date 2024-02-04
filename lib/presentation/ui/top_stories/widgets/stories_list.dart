@@ -1,9 +1,11 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../notifiers/search_query_notifier.dart';
+import '../../../notifiers/stories_category_filter_notifier.dart';
 import '../../../notifiers/stories_filtered_notifier.dart';
 import '../../../state_models/filtered_stories_state.dart';
 import '../../../state_models/stories_content_state.dart';
@@ -16,6 +18,8 @@ class StoriesList extends ConsumerStatefulWidget {
   final NotifierProvider<StoriesFilteredNotifier, FilteredStoriesState>
       filteredNotifier;
   final NotifierProvider<SearchQueryNotifier, String> queryNotifier;
+  final NotifierProvider<StoriesCategoryFilterNotifier, ISet<String>>
+      categoryFilter;
   final bool showSection;
 
   const StoriesList({
@@ -24,6 +28,7 @@ class StoriesList extends ConsumerStatefulWidget {
     required this.data,
     required this.filteredNotifier,
     required this.queryNotifier,
+    required this.categoryFilter,
   });
 
   @override
@@ -48,10 +53,15 @@ class _StoriesListState extends ConsumerState<StoriesList> {
   Widget build(BuildContext context) {
     ref.listen(widget.queryNotifier, (_, __) => filter());
     final articles = ref.watch(widget.filteredNotifier);
+    final categoryFilter = ref.watch(widget.categoryFilter);
     return articles.map(
       data: (data) {
-        final articles = data.articles;
-        if (articles.isEmpty) {
+        final filteredCategories = categoryFilter.isEmpty
+            ? data.articles
+            : data.articles.where(
+                (element) => categoryFilter.contains(element.section),
+              );
+        if (filteredCategories.isEmpty) {
           return const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(20.0),
@@ -68,7 +78,7 @@ class _StoriesListState extends ConsumerState<StoriesList> {
             ),
           );
         }
-        final elements = articles.map(
+        final elements = filteredCategories.map(
           (e) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: StoryCard(

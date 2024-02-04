@@ -1,8 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../notifiers/search_field_in_focus_notifier.dart';
 import '../../../notifiers/search_query_notifier.dart';
+import '../../../notifiers/stories_category_filter_notifier.dart';
 import '../../../notifiers/stories_loading_notifier.dart';
 import '../../../state_models/loading_stories_state.dart';
 import 'category_bubble.dart';
@@ -14,6 +16,8 @@ class TopStoriesSearchTabs extends StatelessWidget {
   final NotifierProvider<SearchQueryNotifier, String> searchQueryNotifier;
   final NotifierProvider<StoriesLoadingNotifier, LoadingStoriesState>
       loadingNotifier;
+  final NotifierProvider<StoriesCategoryFilterNotifier, ISet<String>>
+      categoryFilterNotifier;
   final Iterable<String> categories;
   final String selectedCategory;
 
@@ -24,6 +28,7 @@ class TopStoriesSearchTabs extends StatelessWidget {
     required this.focusNotifier,
     required this.loadingNotifier,
     required this.searchQueryNotifier,
+    required this.categoryFilterNotifier,
   });
 
   @override
@@ -39,6 +44,7 @@ class TopStoriesSearchTabs extends StatelessWidget {
                 child: SearchField(
                   focusNotifier: focusNotifier,
                   searchQueryNotifier: searchQueryNotifier,
+                  categoryFilterNotifier: categoryFilterNotifier,
                 ),
               ),
               Padding(

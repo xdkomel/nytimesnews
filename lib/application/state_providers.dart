@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../presentation/notifiers/bookmarked_categories_notifier.dart';
 import '../presentation/notifiers/search_field_in_focus_notifier.dart';
 import '../presentation/notifiers/search_query_notifier.dart';
+import '../presentation/notifiers/stories_category_filter_notifier.dart';
 import '../presentation/notifiers/stories_filtered_notifier.dart';
 import '../presentation/notifiers/stories_loading_notifier.dart';
 import '../presentation/state_models/filtered_stories_state.dart';
@@ -27,6 +28,10 @@ abstract class StateProviders {
       NotifierProvider<SearchQueryNotifier, String>(
     () => SearchQueryNotifier(),
   );
+  static final homepageCategoryFilter =
+      NotifierProvider<StoriesCategoryFilterNotifier, ISet<String>>(
+    () => StoriesCategoryFilterNotifier(),
+  );
 
   // Bookmarked
   static final bookmarkedCategories =
@@ -48,5 +53,9 @@ abstract class StateProviders {
   static final bookmarkedSearchQuery =
       NotifierProvider<SearchQueryNotifier, String>(
     () => SearchQueryNotifier(),
+  );
+  static final bookmarkedCategoryFilter =
+      NotifierProvider<StoriesCategoryFilterNotifier, ISet<String>>(
+    () => StoriesCategoryFilterNotifier(),
   );
 }
