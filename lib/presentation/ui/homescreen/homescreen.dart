@@ -17,13 +17,13 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    ref.read(Providers.apiSectionsStorageProvider).init();
-    initBookmarkedStorage(ref);
+    initStorage(ref);
     super.initState();
   }
 
-  Future<void> initBookmarkedStorage(WidgetRef ref) async {
+  Future<void> initStorage(WidgetRef ref) async {
     await ref.read(Providers.bookmarkedSectionsStorageProvider).init();
+    ref.read(Providers.apiSectionsStorageProvider).init();
     ref.read(StateProviders.bookmarkedCategories.notifier).loadFromStorage();
   }
 
