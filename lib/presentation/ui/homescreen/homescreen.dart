@@ -17,13 +17,20 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    ref.read(Providers.storageProvider).init();
+    initStorage(ref);
     super.initState();
+  }
+
+  Future<void> initStorage(WidgetRef ref) async {
+    await ref.read(Providers.bookmarkedSectionsStorageProvider).init();
+    ref.read(StateProviders.bookmarkedCategories.notifier).loadFromStorage();
+    ref.read(Providers.apiSectionsStorageProvider).init();
   }
 
   @override
   void dispose() {
-    ref.read(Providers.storageProvider).close();
+    ref.read(Providers.apiSectionsStorageProvider).close();
+    ref.read(Providers.bookmarkedSectionsStorageProvider).close();
     super.dispose();
   }
 
@@ -58,7 +65,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         body: IndexedStack(
           index: _selectedIndex,
-          children:  [
+          children: [
             TopStories(
               title: 'NY Times Top Stories',
               categories: Constants.categories,
