@@ -4,7 +4,9 @@ import '../domain/models/section.dart';
 import 'models/article_isar.dart';
 import 'models/multimedia_isar.dart';
 import 'models/section_isar.dart';
+import 'models/section_name.dart';
 
+// Sections in API
 extension SectionToIsar on Section {
   SectionIsar toIsar([String? customSection]) => SectionIsar(
         status: status,
@@ -138,4 +140,14 @@ extension MultimediaIsarToMultimedia on MultimediaIsar {
       copyright: copyright!,
     );
   }
+}
+
+
+// Bookmarked
+extension StringToSectionIsar on String {
+  SectionName toSectionIsar() => SectionName(this);
+}
+
+extension SectionNameToString on SectionName {
+  String getName() => name;
 }

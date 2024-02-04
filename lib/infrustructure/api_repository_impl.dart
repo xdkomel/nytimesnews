@@ -4,13 +4,13 @@ import 'package:logger/logger.dart';
 
 import '../api_key.dart';
 import '../constants/constants.dart';
-import '../data/storage.dart';
+import '../data/api_sections_storage.dart';
 import '../domain/models/section.dart';
 import 'api_repository.dart';
 
 class ApiRepositoryImpl extends ApiRepository {
   final _dio = Dio();
-  final Storage _storage;
+  final ApiSectionsStorage _storage;
   final Logger _logger;
   ApiRepositoryImpl(this._storage, this._logger);
 

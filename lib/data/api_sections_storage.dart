@@ -1,6 +1,6 @@
 import '../domain/models/section.dart';
 
-abstract class Storage {
+abstract class ApiSectionsStorage {
   Future<void> store({required String sectionName, required Section section});
 
   Future<Section?> load({required String sectionName});

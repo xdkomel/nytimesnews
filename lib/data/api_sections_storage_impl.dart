@@ -1,23 +1,23 @@
 import 'package:isar/isar.dart';
 import 'package:logger/logger.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../domain/models/section.dart';
 import 'dtos.dart';
+import 'isar_manager.dart';
 import 'models/section_isar.dart';
-import 'storage.dart';
+import 'api_sections_storage.dart';
 
-class StorageImpl extends Storage {
-  Isar? _isar;
-  Logger _logger;
-  StorageImpl(this._logger);
+class ApiSectionsStorageImpl extends ApiSectionsStorage {
+  final IsarManager _isar;
+  final Logger _logger;
+  ApiSectionsStorageImpl(this._logger, this._isar);
 
   @override
   Future<Section?> load({
     required String sectionName,
   }) async {
     final sections =
-        await _isar?.sectionIsars.where().sectionEqualTo(sectionName).findAll();
+        await _isar.isar?.sectionIsars.where().sectionEqualTo(sectionName).findAll();
     return sections?.firstOrNull?.toSection();
   }
 
@@ -26,12 +26,12 @@ class StorageImpl extends Storage {
     required String sectionName,
     required Section section,
   }) async {
-    if (_isar == null) {
+    if (_isar.isar == null) {
       _logger.d('Isar is null, so couldn\'t store data');
       return;
     }
-    await _isar!.writeTxn(
-      () => _isar!.sectionIsars.put(
+    await _isar.isar!.writeTxn(
+      () => _isar.isar!.sectionIsars.put(
         section.toIsar(sectionName),
       ),
     );
@@ -39,15 +39,11 @@ class StorageImpl extends Storage {
 
   @override
   Future<void> init() async {
-    final dir = await getApplicationDocumentsDirectory();
-    _isar = await Isar.open(
-      [SectionIsarSchema],
-      directory: dir.path,
-    );
+    await _isar.init();
   }
 
   @override
   Future<void> close() async {
-    _isar?.close();
+    await _isar.close();
   }
 }
