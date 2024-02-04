@@ -2,23 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../application/state_providers.dart';
 import '../../../../constants/constants.dart';
+import '../../../notifiers/stories_loading_notifier.dart';
+import '../../../state_models/loading_stories_state.dart';
 
 class CategoryBubble extends ConsumerWidget {
+  final NotifierProvider<StoriesLoadingNotifier, LoadingStoriesState>
+      loadingNotifier;
   final String name;
   final bool isSelected;
 
   const CategoryBubble({
     super.key,
+    required this.loadingNotifier,
     required this.name,
     required this.isSelected,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => Bounceable(
-    onTap: () => ref.read(StateProviders.topStoriesStateProvider.notifier).updateCategory(name),
-    child: Container(
+        onTap: () => ref.read(loadingNotifier.notifier).setCategory(name),
+        child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: isSelected ? Constants.purplePrimary : Constants.greyLighter,
@@ -36,5 +40,5 @@ class CategoryBubble extends ConsumerWidget {
             ),
           ),
         ),
-  );
+      );
 }

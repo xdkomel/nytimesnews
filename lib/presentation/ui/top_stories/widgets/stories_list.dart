@@ -1,43 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../application/state_providers.dart';
 import '../../../../constants/constants.dart';
-import '../../../../domain/models/article.dart';
+import '../../../notifiers/search_query_notifier.dart';
+import '../../../notifiers/stories_filtered_notifier.dart';
+import '../../../state_models/filtered_stories_state.dart';
+import '../../../state_models/stories_content_state.dart';
 import '../../common/loading_indicator.dart';
 import 'paged_list.dart';
 import 'story_card.dart';
 
 class StoriesList extends ConsumerStatefulWidget {
-  final String categoryName;
+  final TopStoriesContentStateData data;
+  final NotifierProvider<StoriesFilteredNotifier, FilteredStoriesState>
+      filteredNotifier;
+  final NotifierProvider<SearchQueryNotifier, String> queryNotifier;
+  final bool showSection;
 
-  const StoriesList({super.key, required this.categoryName});
+  const StoriesList({
+    super.key,
+    required this.showSection,
+    required this.data,
+    required this.filteredNotifier,
+    required this.queryNotifier,
+  });
 
   @override
-  ConsumerState<StoriesList> createState() => _StoriesListState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _StoriesListState();
 }
 
 class _StoriesListState extends ConsumerState<StoriesList> {
-  bool matchesQuery(String? query, Article article) {
-    if (query == null) {
-      return true;
-    }
-    return article.title.toLowerCase().contains(query) ||
-        article.abstract.toLowerCase().contains(query);
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) => filter());
+    super.initState();
+  }
+
+  Future<void> filter() async {
+    final query = ref.read(widget.queryNotifier);
+    await ref
+        .read(widget.filteredNotifier.notifier)
+        .filter(query, widget.data.section.results);
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(StateProviders.topStoriesStateProvider).content;
-    return state.map(
+    ref.listen(widget.queryNotifier, (_, __) => filter());
+    final articles = ref.watch(widget.filteredNotifier);
+    return articles.map(
       data: (data) {
-        final articles = data.section.results.where(
-          (article) {
-            final query =
-                ref.read(StateProviders.topStoriesStateProvider).searchQuery;
-            return matchesQuery(query, article);
-          },
-        );
+        final articles = data.articles;
         if (articles.isEmpty) {
           return const SliverToBoxAdapter(
             child: Padding(
@@ -61,7 +74,7 @@ class _StoriesListState extends ConsumerState<StoriesList> {
             child: StoryCard(
               key: ValueKey(e.title),
               article: e,
-              showSection: widget.categoryName == Constants.defaultSection,
+              showSection: widget.showSection,
             ),
           ),
         );
@@ -77,12 +90,7 @@ class _StoriesListState extends ConsumerState<StoriesList> {
         );
       },
       loading: (_) => const SliverToBoxAdapter(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Center(
-            child: LoadingIndicator(),
-          ),
-        ),
+        child: Center(child: LoadingIndicator()),
       ),
     );
   }

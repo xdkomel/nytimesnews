@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../application/state_providers.dart';
 import '../../../constants/assets_manager.dart';
 import '../../../constants/constants.dart';
+import '../bookmarked_stories/bookmarked_stories.dart';
 import '../top_stories/top_stories.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final bodyOptions = <Widget>[
-    const TopStories(),
-    const Text('2'),
-  ];
-
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -45,6 +43,20 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedItemColor: Constants.purplePrimary,
           onTap: _onItemTapped,
         ),
-        body: bodyOptions.elementAt(_selectedIndex),
+        body: IndexedStack(
+          index: _selectedIndex,
+          children:  [
+            TopStories(
+              title: 'NY Times Top Stories',
+              categories: Constants.categories,
+              loadingNotifier: StateProviders.homepageLoadingStories,
+              focusNotifier: StateProviders.homepageSearchFieldInFocus,
+              searchQueryNotifier: StateProviders.homepageSearchQuery,
+              filterNotifier: StateProviders.homepageFilteredStories,
+              searchInFocusNotifier: StateProviders.homepageSearchFieldInFocus,
+            ),
+            const BookmarkedStories(),
+          ],
+        ),
       );
 }

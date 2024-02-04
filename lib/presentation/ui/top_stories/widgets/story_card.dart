@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../application/state_providers.dart';
 import '../../../../constants/assets_manager.dart';
 import '../../../../constants/constants.dart';
 import '../../../../domain/models/article.dart';
 import '../../webview/webview.dart';
 
-class StoryCard extends StatefulWidget {
+class StoryCard extends StatelessWidget {
   final Article article;
   final bool showSection;
   const StoryCard({
@@ -16,27 +18,24 @@ class StoryCard extends StatefulWidget {
     this.showSection = false,
   });
 
-  @override
-  State<StoryCard> createState() => _StoryCardState();
-}
+  void openWebview(BuildContext context) {
+    final url = Uri.tryParse(article.url);
+    if (url == null) {
+      return;
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Webview(url: url),
+      ),
+    );
+  }
 
-class _StoryCardState extends State<StoryCard> {
   @override
   Widget build(BuildContext context) {
-    final imageUrl = widget.article.multimedia?.firstOrNull?.url;
+    final imageUrl = article.multimedia?.firstOrNull?.url;
     return Bounceable(
-      onTap: () {
-        final url = Uri.tryParse(widget.article.url);
-        if (url == null) {
-          return;
-        }
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Webview(url: url),
-          ),
-        );
-      },
+      onTap: () => openWebview(context),
       child: Container(
         height: Constants.cardHeight,
         decoration: BoxDecoration(
@@ -58,21 +57,11 @@ class _StoryCardState extends State<StoryCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      // TODO: add to bookmarks
-                    },
-                    icon: AssetsManager.bookmarkIconWhite,
-                  ),
-                ],
-              ),
+              _BookmarkRow(article.section),
               const Spacer(),
-              if (widget.showSection)
+              if (showSection)
                 Text(
-                  widget.article.section.toUpperCase(),
+                  article.section.toUpperCase(),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -81,7 +70,7 @@ class _StoryCardState extends State<StoryCard> {
                 ),
               const SizedBox(height: 8),
               Text(
-                widget.article.title,
+                article.title,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -94,4 +83,29 @@ class _StoryCardState extends State<StoryCard> {
       ),
     );
   }
+}
+
+class _BookmarkRow extends ConsumerWidget {
+  final String section;
+  const _BookmarkRow(this.section);
+
+  void pressBookmark(WidgetRef ref) {
+    final category = section;
+    final notifier = ref.read(StateProviders.bookmarkedCategories.notifier);
+    notifier.toggleCategory(category);
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => Row(
+        children: [
+          const Spacer(),
+          IconButton(
+            onPressed: () => pressBookmark(ref),
+            icon:
+                ref.watch(StateProviders.bookmarkedCategories).contains(section)
+                    ? AssetsManager.bookmarkIconFillWhite
+                    : AssetsManager.bookmarkIconWhite,
+          ),
+        ],
+      );
 }

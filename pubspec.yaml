@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.19.0
   cached_network_image: ^3.3.1
   webview_flutter: ^4.5.0
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +78,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/bookmark.svg
+    - assets/icons/bookmark_fill.svg
     - assets/icons/estate.svg
     - assets/icons/search.svg
 

@@ -1,14 +1,30 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../constants/constants.dart';
+import '../../../notifiers/search_field_in_focus_notifier.dart';
+import '../../../notifiers/search_query_notifier.dart';
+import '../../../notifiers/stories_loading_notifier.dart';
+import '../../../state_models/loading_stories_state.dart';
 import 'category_bubble.dart';
 import 'persistent_header.dart';
 import 'search_field.dart';
 
 class TopStoriesSearchTabs extends StatelessWidget {
-  final String category;
+  final NotifierProvider<SearchFieldInFocusNotifier, bool> focusNotifier;
+  final NotifierProvider<SearchQueryNotifier, String> searchQueryNotifier;
+  final NotifierProvider<StoriesLoadingNotifier, LoadingStoriesState>
+      loadingNotifier;
+  final Iterable<String> categories;
+  final String selectedCategory;
 
-  const TopStoriesSearchTabs({super.key, required this.category});
+  const TopStoriesSearchTabs({
+    super.key,
+    required this.selectedCategory,
+    required this.categories,
+    required this.focusNotifier,
+    required this.loadingNotifier,
+    required this.searchQueryNotifier,
+  });
 
   @override
   Widget build(BuildContext context) => SliverPersistentHeader(
@@ -18,9 +34,12 @@ class TopStoriesSearchTabs extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: SearchField(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SearchField(
+                  focusNotifier: focusNotifier,
+                  searchQueryNotifier: searchQueryNotifier,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 4),
@@ -28,20 +47,23 @@ class TopStoriesSearchTabs extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: Constants.categories
-                        .map(
-                          (name) => CategoryBubble(
-                            name: name,
-                            isSelected: name == category,
+                    children: [
+                      ...categories
+                          .map(
+                            (name) => CategoryBubble(
+                              name: name,
+                              isSelected: name == selectedCategory,
+                              loadingNotifier: loadingNotifier,
+                            ),
+                          )
+                          .expand(
+                            (element) => [
+                              const SizedBox(width: 16),
+                              element,
+                            ],
                           ),
-                        )
-                        .expand(
-                          (element) => [
-                            const SizedBox(width: 16),
-                            element,
-                          ],
-                        )
-                        .toList(),
+                      const SizedBox(width: 16),
+                    ],
                   ),
                 ),
               ),
