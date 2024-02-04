@@ -11,16 +11,20 @@ import '../presentation/state_models/loading_stories_state.dart';
 
 abstract class StateProviders {
   // Homepage
-  static final homepageLoadingStories = NotifierProvider<StoriesLoadingNotifier, LoadingStoriesState>(
+  static final homepageLoadingStories =
+      NotifierProvider<StoriesLoadingNotifier, LoadingStoriesState>(
     () => StoriesLoadingNotifier(),
   );
-  static final homepageFilteredStories = NotifierProvider<StoriesFilteredNotifier, FilteredStoriesState>(
+  static final homepageFilteredStories =
+      NotifierProvider<StoriesFilteredNotifier, FilteredStoriesState>(
     () => StoriesFilteredNotifier(),
   );
-  static final homepageSearchFieldInFocus = NotifierProvider<SearchFieldInFocusNotifier, bool>(
+  static final homepageSearchFieldInFocus =
+      NotifierProvider<SearchFieldInFocusNotifier, bool>(
     () => SearchFieldInFocusNotifier(),
   );
-  static final homepageSearchQuery = NotifierProvider<SearchQueryNotifier, String>(
+  static final homepageSearchQuery =
+      NotifierProvider<SearchQueryNotifier, String>(
     () => SearchQueryNotifier(),
   );
 
@@ -29,16 +33,20 @@ abstract class StateProviders {
       NotifierProvider<BookmarkedCategoriesNotifier, ISet<String>>(
     () => BookmarkedCategoriesNotifier(),
   );
-  static final bookmarkedLoadingStories = NotifierProvider<StoriesLoadingNotifier, LoadingStoriesState>(
+  static final bookmarkedLoadingStories =
+      NotifierProvider<StoriesLoadingNotifier, LoadingStoriesState>(
     () => StoriesLoadingNotifier(),
   );
-  static final bookmarkedFilteredStories = NotifierProvider<StoriesFilteredNotifier, FilteredStoriesState>(
+  static final bookmarkedFilteredStories =
+      NotifierProvider<StoriesFilteredNotifier, FilteredStoriesState>(
     () => StoriesFilteredNotifier(),
   );
-  static final bookmarkedSearchFieldInFocus = NotifierProvider<SearchFieldInFocusNotifier, bool>(
+  static final bookmarkedSearchFieldInFocus =
+      NotifierProvider<SearchFieldInFocusNotifier, bool>(
     () => SearchFieldInFocusNotifier(),
   );
-  static final bookmarkedSearchQuery = NotifierProvider<SearchQueryNotifier, String>(
+  static final bookmarkedSearchQuery =
+      NotifierProvider<SearchQueryNotifier, String>(
     () => SearchQueryNotifier(),
   );
 }

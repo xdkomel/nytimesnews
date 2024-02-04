@@ -32,7 +32,7 @@ class BookmarkedSectionsStorageImpl extends BookmarkedSectionsStorage {
 
   @override
   Future<void> store({required String section}) async {
-    if (_isar == null) {
+    if (_isar.isar == null) {
       _logger.d('Isar is null, so couldn\'t store data');
       return;
     }
