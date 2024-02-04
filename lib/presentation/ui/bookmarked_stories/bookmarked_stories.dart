@@ -31,6 +31,7 @@ class BookmarkedStories extends ConsumerWidget {
       searchQueryNotifier: StateProviders.bookmarkedSearchQuery,
       filterNotifier: StateProviders.bookmarkedFilteredStories,
       searchInFocusNotifier: StateProviders.bookmarkedSearchFieldInFocus,
+      categoryFilterNotifier: StateProviders.bookmarkedCategoryFilter,
     );
   }
 }

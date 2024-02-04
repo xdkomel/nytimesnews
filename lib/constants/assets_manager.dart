@@ -58,4 +58,24 @@ abstract class AssetsManager {
       BlendMode.srcIn,
     ),
   );
+  static final filterIconIncative = SvgPicture.asset(
+    'assets/icons/filter.svg',
+    width: 24,
+    height: 24,
+    fit: BoxFit.contain,
+    colorFilter: const ColorFilter.mode(
+      Constants.greyPrimary,
+      BlendMode.srcIn,
+    ),
+  );
+  static final filterIconAtive = SvgPicture.asset(
+    'assets/icons/filter.svg',
+    width: 24,
+    height: 24,
+    fit: BoxFit.contain,
+    colorFilter: const ColorFilter.mode(
+      Constants.purplePrimary,
+      BlendMode.srcIn,
+    ),
+  );
 }

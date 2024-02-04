@@ -1,8 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../notifiers/search_query_notifier.dart';
+import '../../../notifiers/stories_category_filter_notifier.dart';
 import '../../../notifiers/stories_filtered_notifier.dart';
 import '../../../notifiers/stories_loading_notifier.dart';
 import '../../../state_models/filtered_stories_state.dart';
@@ -16,6 +18,8 @@ class StoriesContent extends ConsumerWidget {
   final NotifierProvider<StoriesFilteredNotifier, FilteredStoriesState>
       filteredNotifier;
   final NotifierProvider<SearchQueryNotifier, String> queryNotifier;
+  final NotifierProvider<StoriesCategoryFilterNotifier, ISet<String>>
+      categoryFilter;
   final String categoryName;
 
   const StoriesContent({
@@ -24,6 +28,7 @@ class StoriesContent extends ConsumerWidget {
     required this.loadingNotifier,
     required this.filteredNotifier,
     required this.queryNotifier,
+    required this.categoryFilter,
   });
 
   @override
@@ -35,6 +40,7 @@ class StoriesContent extends ConsumerWidget {
         data: data,
         filteredNotifier: filteredNotifier,
         queryNotifier: queryNotifier,
+        categoryFilter: categoryFilter,
       ),
       loading: (_) => const SliverToBoxAdapter(
         child: Padding(

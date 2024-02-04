@@ -6,6 +6,7 @@ abstract class Constants {
   static const Color greyLighter = Color(0xffF3F4F6);
   static const Color blackPrimary = Color(0xff333647);
   static const Color greyPrimary = Color(0xff7C82A1);
+  static const Color greyDarker = Color(0xff666C8E);
 
   static const String defaultSection = 'home';
   static const List<String> categories = [
@@ -35,6 +36,34 @@ abstract class Constants {
     'upshot',
     'us',
     'world',
+  ];
+  static final List<String> categoriesEmojis = [
+    '🏠',
+    '🎨',
+    '🚗',
+    '📖',
+    '💼',
+    '👒',
+    '🍲',
+    '🍎',
+    '👀',
+    '🗞️',
+    '📽️',
+    '🗽',
+    '🥀',
+    '💭',
+    '🗳️',
+    '🏘️',
+    '🔬',
+    '🏀',
+    '🔍',
+    '💻',
+    '🎭',
+    '🎁',
+    '🛩️',
+    '💡',
+    '🇺🇸',
+    '🗺️',
   ];
 
   static const apiPath = 'https://api.nytimes.com/svc/topstories/v2/';

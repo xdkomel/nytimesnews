@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ import '../../../application/providers.dart';
 import '../../../constants/constants.dart';
 import '../../notifiers/search_field_in_focus_notifier.dart';
 import '../../notifiers/search_query_notifier.dart';
+import '../../notifiers/stories_category_filter_notifier.dart';
 import '../../notifiers/stories_filtered_notifier.dart';
 import '../../notifiers/stories_loading_notifier.dart';
 import '../../state_models/filtered_stories_state.dart';
@@ -28,6 +30,8 @@ class TopStories extends ConsumerStatefulWidget {
       filterNotifier;
   final NotifierProvider<SearchFieldInFocusNotifier, bool>
       searchInFocusNotifier;
+  final NotifierProvider<StoriesCategoryFilterNotifier, ISet<String>>
+      categoryFilterNotifier;
 
   const TopStories({
     required this.title,
@@ -37,6 +41,7 @@ class TopStories extends ConsumerStatefulWidget {
     required this.searchQueryNotifier,
     required this.filterNotifier,
     required this.searchInFocusNotifier,
+    required this.categoryFilterNotifier,
     super.key,
   });
 
@@ -53,7 +58,9 @@ class _TopStoriesState extends ConsumerState<TopStories> {
     if (firstCategory != null) {
       _timer = Timer.periodic(const Duration(minutes: 1), (_) {
         ref.read(Providers.logger).d('Perform the regular 1 minute update');
-        ref.read(widget.loadingNotifier.notifier).loadData(loadImplicitly: true);
+        ref
+            .read(widget.loadingNotifier.notifier)
+            .loadData(loadImplicitly: true);
       });
       SchedulerBinding.instance.addPostFrameCallback((_) {
         ref.read(widget.loadingNotifier.notifier).setCategory(firstCategory);
@@ -103,6 +110,7 @@ class _TopStoriesState extends ConsumerState<TopStories> {
             focusNotifier: widget.focusNotifier,
             loadingNotifier: widget.loadingNotifier,
             searchQueryNotifier: widget.searchQueryNotifier,
+            categoryFilterNotifier: widget.categoryFilterNotifier,
           ),
           SliverAnimatedOpacity(
             opacity: ref.watch(widget.searchInFocusNotifier) ? 0.5 : 1,
@@ -114,6 +122,7 @@ class _TopStoriesState extends ConsumerState<TopStories> {
                 loadingNotifier: widget.loadingNotifier,
                 filteredNotifier: widget.filterNotifier,
                 queryNotifier: widget.searchQueryNotifier,
+                categoryFilter: widget.categoryFilterNotifier,
               ),
             ),
           ),
