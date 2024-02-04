@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../application/providers.dart';
 import '../../../constants/constants.dart';
 import '../../notifiers/search_field_in_focus_notifier.dart';
 import '../../notifiers/search_query_notifier.dart';
@@ -42,15 +45,28 @@ class TopStories extends ConsumerStatefulWidget {
 }
 
 class _TopStoriesState extends ConsumerState<TopStories> {
+  Timer? _timer;
+
   @override
   void initState() {
     final firstCategory = widget.categories.firstOrNull;
     if (firstCategory != null) {
+      _timer = Timer.periodic(const Duration(minutes: 1), (_) {
+        ref.read(Providers.logger).d('Perform the regular 1 minute update');
+        ref.read(widget.loadingNotifier.notifier).loadData(loadImplicitly: true);
+      });
       SchedulerBinding.instance.addPostFrameCallback((_) {
         ref.read(widget.loadingNotifier.notifier).setCategory(firstCategory);
       });
     }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    ref.read(Providers.logger).d('Dispose the timer');
+    _timer?.cancel();
+    super.dispose();
   }
 
   String formatLastUpdatedMessage(String message) {

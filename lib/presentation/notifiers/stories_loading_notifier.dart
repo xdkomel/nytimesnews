@@ -13,9 +13,13 @@ class StoriesLoadingNotifier extends Notifier<LoadingStoriesState> {
         content: StoriesContentState.loading(),
       );
 
-  Future<void> loadData() async {
+  Future<void> loadData({bool loadImplicitly = false}) async {
     final category = state.category;
-    state = state.copyWith(content: StoriesContentState.loading());
+    if (!loadImplicitly) {
+      state = state.copyWith(
+        content: StoriesContentState.loading(),
+      );
+    }
     final api = ref.read(Providers.apiRepositoryProvider);
     final data = await api.loadData(category);
     data.fold(

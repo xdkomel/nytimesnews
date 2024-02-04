@@ -72,7 +72,7 @@ class _StoriesListState extends ConsumerState<StoriesList> {
           (e) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: StoryCard(
-              key: ValueKey(e.title),
+              key: ValueKey(e.abstract),
               article: e,
               showSection: widget.showSection,
             ),
