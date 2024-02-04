@@ -44,17 +44,31 @@ class StoriesContent extends ConsumerWidget {
           ),
         ),
       ),
-      error: (message) => const SliverToBoxAdapter(
+      error: (message) => SliverToBoxAdapter(
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: Text(
-              Constants.noArticlesMessage,
-              style: TextStyle(
-                color: Constants.blackPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  message.errorMessage,
+                  style: const TextStyle(
+                    color: Constants.blackPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                IconButton(
+                  onPressed: ref.read(loadingNotifier.notifier).loadData,
+                  icon: const Icon(
+                    Icons.refresh,
+                    size: 48,
+                    color: Constants.purplePrimary,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

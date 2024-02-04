@@ -8,6 +8,7 @@ class StoriesFilteredNotifier extends Notifier<FilteredStoriesState> {
   FilteredStoriesState build() => FilteredStoriesState.loading();
 
   Future<void> filter(String query, Iterable<Article> articles) async {
+    state = FilteredStoriesState.loading();
     if (query.isEmpty) {
       state = FilteredStoriesState.data(articles: articles);
       return;

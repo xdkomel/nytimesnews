@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../application/providers.dart';
 import '../../../application/state_providers.dart';
 import '../../../constants/assets_manager.dart';
 import '../../../constants/constants.dart';
@@ -14,6 +15,18 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    ref.read(Providers.storageProvider).init();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    ref.read(Providers.storageProvider).close();
+    super.dispose();
+  }
+
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
