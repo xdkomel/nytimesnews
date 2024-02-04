@@ -4,8 +4,9 @@ import '../../../../constants/constants.dart';
 
 class TopStoriesHeader extends StatelessWidget {
   final String lastUpdatedMessage;
+  final String title;
 
-  const TopStoriesHeader({super.key, required this.lastUpdatedMessage});
+  const TopStoriesHeader({super.key, required this.lastUpdatedMessage, required this.title});
 
   @override
   Widget build(BuildContext context) => SliverToBoxAdapter(
@@ -15,9 +16,9 @@ class TopStoriesHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 28),
-              const Text(
-                'NY Times Top Stories',
-                style: TextStyle(
+               Text(
+                title,
+                style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.w600,
                   color: Constants.blackPrimary,

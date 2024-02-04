@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../application/state_providers.dart';
 import '../../../../constants/assets_manager.dart';
 import '../../../../constants/constants.dart';
+import '../../../notifiers/search_field_in_focus_notifier.dart';
+import '../../../notifiers/search_query_notifier.dart';
 
 class SearchField extends ConsumerStatefulWidget {
-  const SearchField({super.key});
+  final NotifierProvider<SearchFieldInFocusNotifier, bool> focusNotifier;
+  final NotifierProvider<SearchQueryNotifier, String> searchQueryNotifier;
+
+  const SearchField({
+    required this.focusNotifier,
+    required this.searchQueryNotifier,
+    super.key,
+  });
 
   @override
   ConsumerState<SearchField> createState() => _SearchFieldState();
@@ -20,7 +28,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
   void initState() {
     _focusNode.addListener(() {
       final focus = _focusNode.hasFocus;
-      final manager = ref.read(StateProviders.isSearchInFocus.notifier);
+      final manager = ref.read(widget.focusNotifier.notifier);
       if (focus) {
         manager.focus();
       } else {
@@ -29,7 +37,7 @@ class _SearchFieldState extends ConsumerState<SearchField> {
     });
     _controller.addListener(() {
       final text = _controller.text;
-      ref.read(StateProviders.topStoriesStateProvider.notifier).filter(text);
+      ref.read(widget.searchQueryNotifier.notifier).update(text);
     });
     super.initState();
   }
