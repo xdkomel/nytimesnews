@@ -23,8 +23,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Future<void> initStorage(WidgetRef ref) async {
     await ref.read(Providers.bookmarkedSectionsStorageProvider).init();
-    ref.read(Providers.apiSectionsStorageProvider).init();
     ref.read(StateProviders.bookmarkedCategories.notifier).loadFromStorage();
+    ref.read(Providers.apiSectionsStorageProvider).init();
   }
 
   @override
